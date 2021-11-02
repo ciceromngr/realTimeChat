@@ -47,15 +47,24 @@ class UsersService {
         return users
     }
     
+    async getUserBySokcetId(socketId: string) {
+        const usersRepository = getCustomRepository(UsersRepository)
+        const user = await usersRepository.findOne({ socketId })
+        return user
+    }
+
+
     async exitUser(socketId: string) {
 
         const usersRepository = getCustomRepository(UsersRepository)
 
         const socketExist = await usersRepository.findOne({ socketId })
 
+        if(!socketExist) return ''
+
         await usersRepository.save({ ...socketExist, socketId: '' })
 
-        return `${socketExist.name.charAt(0).toUpperCase} saiu`
+        return `${socketExist.name} saiu`
         
     }
 

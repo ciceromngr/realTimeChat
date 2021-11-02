@@ -16,6 +16,18 @@ class UsersController {
         return users
     }
 
+    async getUserBySocketId(socketId: string) {
+        const usersService = new UsersService()
+        const user = await usersService.getUserBySokcetId(socketId)
+        return user
+    }
+
+    async exitUser(socketId: string) {
+        const usersService = new UsersService()
+        const msg = await usersService.exitUser(socketId)
+        return msg
+    }
+
 }
 
 export { UsersController }
