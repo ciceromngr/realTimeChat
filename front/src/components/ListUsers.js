@@ -1,14 +1,11 @@
 import React from 'react'
 
 const ListUsers = (props) => {
-    console.log("Salve menor",props.listUsers)
-
-    const userListName = props.listUsers.filter(user => user.name !== props.userName)
-    console.log(userListName)
+    const userListName = props.listUsers && props.listUsers.filter(user => user.name !== props.userName)
     return (
-        <div>
-            {userListName.map((user, i) => (
-                <div key={i}>{user.name}</div>
+        <div className="list-user__container">
+            {userListName && userListName.map((user, i) => (
+                <div key={i} style={{marginBottom: '15px'}}>{user.name}</div>
             ))}
         </div>
     )
