@@ -53,19 +53,28 @@ class UsersService {
         return user
     }
 
-
-    async exitUser(socketId: string) {
+    async exitUser(socketId: string, boolean: boolean) {
 
         const usersRepository = getCustomRepository(UsersRepository)
 
         const socketExist = await usersRepository.findOne({ socketId })
 
-        if(!socketExist) return ''
+        if(socketExist && boolean === true) {
+            
+            return {
+                msg: `${socketExist.name} entrou`,
+                status: true
+            }
 
-        await usersRepository.save({ ...socketExist, socketId: '' })
+        } else {
 
-        return `${socketExist.name} saiu`
-        
+            await usersRepository.save({ ...socketExist, socketId: '' })
+            return {
+                msg: `${socketExist.name} saiu`,
+                status: false
+            }
+
+        }
     }
 
 }

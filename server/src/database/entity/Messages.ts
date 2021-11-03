@@ -1,7 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
-class Users {
+class Messages {
+
 
     @PrimaryColumn({
         type: 'integer',
@@ -10,14 +11,17 @@ class Users {
     readonly id: number
 
     @Column()
-    name: string
-
+    room: string
+    
     @Column()
-    socketId: string
+    msg: string
+    
+    @Column()
+    username: string
 
     @CreateDateColumn()
     createdAt: Date
 
 }
 
-export { Users }
+export { Messages }

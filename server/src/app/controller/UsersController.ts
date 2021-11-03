@@ -22,9 +22,9 @@ class UsersController {
         return user
     }
 
-    async exitUser(socketId: string) {
+    async exitUser(socketId: string, boolean: boolean) {
         const usersService = new UsersService()
-        const msg = await usersService.exitUser(socketId)
+        const msg = await usersService.exitUser(socketId, boolean)
         return msg
     }
 
