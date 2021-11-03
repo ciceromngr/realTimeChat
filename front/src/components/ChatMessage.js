@@ -28,6 +28,7 @@ const ChatMessage = (props) => {
                             (<><span className="container-message__content-user">{m.msg}</span> <span className="container-message__userLogado">{m.nameUser}</span></>)
                         }
                     </div>
+                    
                 ))}
             </div>
             <form onSubmit={(e) => handleSendMessage(e)} className="chat-message__form">

@@ -11,6 +11,8 @@ function App() {
 
   const [usuarioLogado, setUsuarioLogado] = useState()
   const [usersRefresh, setUsersRefresh] = useState()
+  const [receiveMessage, setReceiveMessage] = useState()
+  const [userStatus, setUserStatus] = useState()
 
   useEffect(() => {
     socket.on('connect', () => console.log('Sokcet conectado'))
@@ -19,17 +21,23 @@ function App() {
       setUsuarioLogado(usuario)
     })
 
-    socket.on('UsersRefresh', listPlayers => {
-      setUsersRefresh(listPlayers)
+    socket.on('UsersRefresh', listUsers => {
+      setUsersRefresh(listUsers)
     })
 
-    socket.open();
+    socket.on('ReceiveMessage', message => {
+      setReceiveMessage(message)
+    })
+
+    socket.on('UsersStatus', msgStatus => {
+      setUserStatus(msgStatus)
+    })
   }, [])
 
   return (
     <div>
       {!usuarioLogado && <Login socket={socket} />}
-      {usuarioLogado && <Chat socket={socket} usersRefresh={usersRefresh} usuario={usuarioLogado} />}
+      {usuarioLogado && <Chat socket={socket} usersRefresh={usersRefresh} usuario={usuarioLogado} receiveMessage={receiveMessage} />}
     </div>
   );
 }
