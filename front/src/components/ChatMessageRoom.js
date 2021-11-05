@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const ChatMessage = (props) => {
-    // 0: {id: 1, nameUser: 'Cicero Romao', msg: 'Eae Menosada', createdAt: '2021-11-02T10:20:48.000Z'}
+const ChatMessageRoom = (props) => {
+    // {id: 1, room: 'Sala de valas', msg: 'Eae familia', username: 'Cicero Romao', createdAt: '2021-11-05T14:18:35.000Z'}
     const [sendMessage, setSendMessage] = useState('')
 
     const handleSendMessage = (e) => {
         e.preventDefault()
-        props.sendMessage(sendMessage)
+        props.sendPrivateMessage(sendMessage)
         setSendMessage('')
     }
 
@@ -15,20 +15,22 @@ const ChatMessage = (props) => {
         elem.scrollTop = elem.scrollHeight
     }, [props.receiveMessage])
 
+
     return (
         <div>
+            <button  className="btn__chat-private" onClick={() => props.isSelected(false)}>Voltar</button>
             <div id="container-message__chat" className="container-message__chat">
                 {props.receiveMessage && props.receiveMessage.map((m, i) => (
                     <div
                         key={i}
                         className="container-message__message"
-                        style={{ justifyContent: m.nameUser !== props.userName? 'flex-start': 'flex-end' }}>
+                        style={{ justifyContent: m.username !== props.userName ? 'flex-start' : 'flex-end' }}>
 
-                        {m.nameUser !== props.userName ? (<><span className="container-message__otherUserLogado">{m.nameUser}</span> <span className="container-message__content">{m.msg}</span> </>) :
-                            (<><span className="container-message__content-user">{m.msg}</span> <span className="container-message__userLogado">{m.nameUser}</span></>)
+                        {m.username !== props.userName ? (<><span className="container-message__otherUserLogado">{m.username}</span> <span className="container-message__content">{m.msg}</span> </>) :
+                            (<><span className="container-message__content-user">{m.msg}</span> <span className="container-message__userLogado">{m.username}</span></>)
                         }
                     </div>
-                    
+
                 ))}
             </div>
             <form onSubmit={(e) => handleSendMessage(e)} className="chat-message__form">
@@ -40,4 +42,4 @@ const ChatMessage = (props) => {
     )
 }
 
-export default ChatMessage
+export default ChatMessageRoom
