@@ -1,4 +1,5 @@
 import { createConnection } from "typeorm";
+import { JoinRoom } from "./entity/JoinRoom";
 import { MessageGlobal } from "./entity/MessageGlobal";
 import { Messages } from "./entity/Messages";
 import { Rooms } from "./entity/Rooms";
@@ -12,7 +13,8 @@ createConnection(
             Users,
             MessageGlobal,
             Rooms,
-            Messages
+            Messages,
+            JoinRoom
         ],
         migrations: ["src/database/migration/*.ts"],
         cli: {

@@ -3,12 +3,12 @@ import { RoomsRepository } from "../repository/RoomsRepository"
 
 class RoomsService {
 
-    async handle(user1: number, user2: number) {
+    async handle(userid: number, roomid: string) {
         const roomsRepository = getCustomRepository(RoomsRepository)
 
         const room = roomsRepository.create({
-           user1,
-           user2
+           userid,
+           roomid
         })
 
         await roomsRepository.save(room)

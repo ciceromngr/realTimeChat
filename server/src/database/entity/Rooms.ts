@@ -1,5 +1,4 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from 'uuid'
 import { Users } from "./Users";
 
 @Entity()
@@ -15,22 +14,12 @@ class Rooms {
     roomid: string
 
     @Column()
-    user1: number
+    userid: number
 
-    @Column()
-    user2: number
-
-    @JoinColumn({ name: 'user1' })
+    @JoinColumn({ name: 'userid' })
     @ManyToOne(() => Users)
     us1: Users
 
-    @JoinColumn({ name: 'user2' })
-    @ManyToOne(() => Users)
-    us2: Users
-
-    constructor () {
-        if(!this.roomid) this.roomid = uuid()
-    }
 }
 
 export { Rooms }

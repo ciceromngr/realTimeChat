@@ -9,6 +9,7 @@ import { UsersController } from './app/controller/UsersController'
 import { MessageGlobalController } from './app/controller/MessageGlobalCOntroller'
 import { RoomsController } from './app/controller/RoomsController'
 import { MessagesController } from './app/controller/MessagesController'
+import { JoinRoomController } from './app/controller/JoinRoomController'
 
 const port_Listen = process.env.PORT || 4000
 const host_front = process.env.HOST_FRONT || 'http://localhost:3000'
@@ -24,13 +25,14 @@ const usersController = new UsersController()
 const messageGlobalController = new MessageGlobalController()
 const roomsController = new RoomsController()
 const messageController = new MessagesController()
+const joinRoomController = new JoinRoomController()
 //
 
 sockets.on('connection', (socket) => {
 
     refreshUsers()
-    refreshMessages()
-    
+    refreshMessagesGlobal()
+
     socket.on('disconnect', () => {
         usersStatus(socket.id, false)
         refreshUsers()
@@ -40,18 +42,36 @@ sockets.on('connection', (socket) => {
         const user = await usersController.handle(usuario, socket.id)
         socket.emit('UsuarioLogado', user)
         refreshUsers()
+        refreshRooms()
         usersStatus(socket.id, true)
     })
 
     socket.on('SendMessage', async (message) => {
         await messageGlobalController.sendMessage(message.msg, message.nameUser)
-        refreshMessages()
+        refreshMessagesGlobal()
     })
 
     socket.on('CreateRoom', async (room) => {
-        await roomsController.handle(room.user1, room.user2)
+        await roomsController.handle(room.user1, room.nameRoom)
+        refreshRooms()
     })
 
+    socket.on('JoinRoom', async (data) => {
+        socket.join(data.room)
+        await joinRoomController.handle(data.username, data.room, socket.id)
+        refreshPrivateMessage(data.room)
+    })
+
+    socket.on('SendPrivateMessage', async (privateM) => {
+
+        await messageController.handle(
+            privateM.room,
+            privateM.msg,
+            privateM.username
+        )
+
+        refreshPrivateMessage(privateM.room)
+    })
 })
 
 const refreshUsers = async () => {
@@ -66,9 +86,19 @@ const usersStatus = async (socketId: string, boolean: boolean) => {
     refreshUsers()
 }
 
-const refreshMessages = async () => {
+const refreshMessagesGlobal = async () => {
     const msg = await messageGlobalController.receiveMessage()
     sockets.emit('ReceiveMessage', msg)
+}
+
+const refreshPrivateMessage = async (room: string) => {
+    const messagePrivate = await messageController.getMessagesByRoom(room)
+    sockets.to(room).emit('RecevePrivateMessage', messagePrivate)
+}
+
+const refreshRooms = async () => {
+    const rooms = await roomsController.getRooms()
+    sockets.emit('RommsRefresh', rooms)
 }
 
 server.listen(port_Listen, () => console.log(`Server is Running on port:${port_Listen}`))

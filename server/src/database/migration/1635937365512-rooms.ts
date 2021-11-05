@@ -19,11 +19,7 @@ export class rooms1635937365512 implements MigrationInterface {
                         type: 'varchar'
                     },
                     {
-                        name: 'user1',
-                        type: 'integer'
-                    },
-                    {
-                        name: 'user2',
+                        name: 'userid',
                         type: 'integer'
                     }
                 ],
@@ -32,15 +28,7 @@ export class rooms1635937365512 implements MigrationInterface {
                         name: 'FKUser1Rooms',
                         referencedTableName: 'users',
                         referencedColumnNames: ['id'],
-                        columnNames: ['user1'],
-                        onUpdate: 'SET NULL',
-                        onDelete: 'SET NULL'
-                    },
-                    {
-                        name: 'FKUser2Rooms',
-                        referencedTableName: 'users',
-                        referencedColumnNames: ['id'],
-                        columnNames: ['user2'],
+                        columnNames: ['userid'],
                         onUpdate: 'SET NULL',
                         onDelete: 'SET NULL'
                     }
