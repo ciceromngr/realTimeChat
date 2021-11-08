@@ -56,13 +56,15 @@ sockets.on('connection', (socket) => {
         refreshRooms()
     })
 
-    socket.on('JoinRoom', async (data) => {
+    socket.on('JoinRoom', async (data, cb) => {
         socket.join(data.room)
         await joinRoomController.handle(data.username, data.room, socket.id)
-        refreshPrivateMessage(data.room)
+   
+        const messagePrivate = await messageController.getMessagesByRoom(data.room)
+        cb(messagePrivate)
     })
 
-    socket.on('SendPrivateMessage', async (privateM) => {
+    socket.on('SendPrivateMessage', async (privateM, cb) => {
 
         await messageController.handle(
             privateM.room,
@@ -70,7 +72,9 @@ sockets.on('connection', (socket) => {
             privateM.username
         )
 
-        refreshPrivateMessage(privateM.room)
+        const messagePrivate = await messageController.getMessagesByRoom(privateM.room)
+        socket.to(privateM.room).emit('RecevePrivateMessage', messagePrivate)
+        cb(messagePrivate)
     })
 })
 
@@ -91,10 +95,9 @@ const refreshMessagesGlobal = async () => {
     sockets.emit('ReceiveMessage', msg)
 }
 
-const refreshPrivateMessage = async (room: string) => {
-    const messagePrivate = await messageController.getMessagesByRoom(room)
-    sockets.to(room).emit('RecevePrivateMessage', messagePrivate)
-}
+// const refreshPrivateMessage = async (room: string, socket) => {
+
+// }
 
 const refreshRooms = async () => {
     const rooms = await roomsController.getRooms()
