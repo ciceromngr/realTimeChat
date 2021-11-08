@@ -18,4 +18,13 @@
         "uuid": "^8.3.2",
         "yup": "^0.32.11"
     }
- 
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^16.11.6",
+        "@types/socket.io": "^3.0.2",
+        "@types/uuid": "^8.3.1",
+        "ts-node-dev": "^1.1.8",
+        "typescript": "^4.4.4"
+      }
+      
+  
