@@ -95,10 +95,6 @@ const refreshMessagesGlobal = async () => {
     sockets.emit('ReceiveMessage', msg)
 }
 
-// const refreshPrivateMessage = async (room: string, socket) => {
-
-// }
-
 const refreshRooms = async () => {
     const rooms = await roomsController.getRooms()
     sockets.emit('RommsRefresh', rooms)
