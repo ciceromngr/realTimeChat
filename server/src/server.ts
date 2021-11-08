@@ -100,4 +100,4 @@ const refreshRooms = async () => {
     sockets.emit('RommsRefresh', rooms)
 }
 
-server.listen(port_Listen, () => console.log(`Server is Running on port:${port_Listen}`))
+server.listen(port_Listen)
