@@ -18,7 +18,10 @@ const ChatMessageRoom = (props) => {
 
     return (
         <div>
-            <button  className="btn__chat-private" onClick={() => props.isSelected(false)}>Voltar</button>
+            <div className="container-message__info">
+                <button className="btn__chat-private" onClick={() => props.isSelected(false)}>Voltar</button>
+                <p>{props.joinRoom.roomid}</p>
+            </div>
             <div id="container-message__chat" className="container-message__chat">
                 {props.receiveMessage && props.receiveMessage.map((m, i) => (
                     <div
@@ -35,7 +38,7 @@ const ChatMessageRoom = (props) => {
             </div>
             <form onSubmit={(e) => handleSendMessage(e)} className="chat-message__form">
                 <input type="text" value={sendMessage} onChange={(e) => setSendMessage(e.target.value)} />
-                <button type="submit" disabled={sendMessage ? false : true}>Enviar</button>
+                <button type="submit" disabled={sendMessage.trim() ? false : true}>Enviar</button>
             </form>
 
         </div>

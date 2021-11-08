@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 const ChatMessageGlobal = (props) => {
-    // 0: {id: 1, nameUser: 'Cicero Romao', msg: 'Eae Menosada', createdAt: '2021-11-02T10:20:48.000Z'}
+    
     const [sendMessage, setSendMessage] = useState('')
 
     const handleSendMessage = (e) => {
@@ -17,6 +17,7 @@ const ChatMessageGlobal = (props) => {
 
     return (
         <div>
+            <p className="container-message__title">Global Chat</p>
             <div id="container-message__chat" className="container-message__chat">
                 {props.receiveMessage && props.receiveMessage.map((m, i) => (
                     <div
@@ -33,7 +34,7 @@ const ChatMessageGlobal = (props) => {
             </div>
             <form onSubmit={(e) => handleSendMessage(e)} className="chat-message__form">
                 <input type="text" value={sendMessage} onChange={(e) => setSendMessage(e.target.value)} />
-                <button type="submit" disabled={sendMessage ? false : true}>Enviar</button>
+                <button type="submit" disabled={sendMessage.trim() ? false : true}>Enviar</button>
             </form>
 
         </div>

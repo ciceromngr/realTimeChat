@@ -8,6 +8,7 @@ const Chat = (props) => {
     const [nameRoom, setNameRoom] = useState('')
     const [joinRoom, setJoinRoom] = useState()
     const [isSelected, setIsSelected] = useState(false)
+    const [message, setMessage] = useState()
 
     const sendMessageGLobal = (message) => {
         const send = {
@@ -30,19 +31,28 @@ const Chat = (props) => {
             room: room.roomid
         }
 
-        props.socket.emit('JoinRoom', join)
+        props.socket.emit('JoinRoom', join,
+            (message) => setMessage(message))
         setJoinRoom(room)
         setIsSelected(true)
     }
 
+    
     const sendPrivateMessage = (message) => {
         const sendPrivate = {
             room: joinRoom && joinRoom.roomid,
             msg: message,
             username: props.usuario.name
         }
-        props.socket.emit('SendPrivateMessage', sendPrivate)
+        props.socket.emit('SendPrivateMessage', sendPrivate, 
+        (msg) => setMessage(msg))
     }
+    
+    useEffect(() => {
+        // props.socket.on('RecevePrivateMessage', (msg) => {
+            setMessage(props.receivePrivateMessage)
+        // })
+    }, [props.receivePrivateMessage])
 
     return (
         <div className="chat-container">
@@ -72,7 +82,10 @@ const Chat = (props) => {
                             <button>+</button>
                         </form>
                         {props.rooms && props.rooms.map((room, i) => (
-                            <div className="chat-container__form-select-room" key={i}><p>{room.roomid}</p> <button onClick={() => handleJoinRoom(room)}>Entrar</button></div>
+                            <div className="chat-container__form-select-room" key={i}>
+                                <p>{room.roomid}</p>
+                                <button onClick={() => handleJoinRoom(room)}>Entrar</button>
+                            </div>
                         ))}
                     </div>
 
@@ -89,7 +102,8 @@ const Chat = (props) => {
                 {isSelected && (
                     <ChatMessageRoom
                         isSelected={setIsSelected}
-                        receiveMessage={props.receivePrivateMessage}
+                        joinRoom={joinRoom}
+                        receiveMessage={message}
                         sendPrivateMessage={sendPrivateMessage}
                         userName={props.usuario.name}
                     />

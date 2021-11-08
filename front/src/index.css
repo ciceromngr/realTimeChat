@@ -42,23 +42,18 @@ button {
   display: flex;
 }
 
-/* .chat-container__config {
-  
-} */
-
 .chat-user__logado {
   margin: 1rem;
   padding: 1rem;
   color: white;
   border: none;
   text-align: center;
-  border-bottom: 2px solid rgb(107, 231, 118);
+  border-bottom: 2px solid rgb(94, 108, 235);
 }
 
 .chat-list {
   display: flex;
   flex-direction: column;
-  /* margin: 1rem; */
   padding: 1rem;
   color: white;
 
@@ -151,7 +146,6 @@ button {
   padding: .553rem; 
 
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.425);
-  /* border-radius: 20px; */
   border-radius: 10px;
 }
 
@@ -171,7 +165,6 @@ button {
   margin-right: 5px;
   padding: .453rem; 
   max-width: 187px;
-  /* border-radius: 10px; */
   border-radius: 10px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.425);
 }
@@ -181,8 +174,7 @@ button {
   font-weight: 400;
   max-width: 187px;
   margin-right: 5px;
-  padding: .453rem; 
-  /* border-radius: 10px; */
+  padding: .453rem;
   border-radius: 10px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.425);
 }
@@ -223,6 +215,25 @@ button {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.container-message__info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-message__info p {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.container-message__title {
+  color: white;
+  font-weight: bold;
 }
 
 ::-webkit-scrollbar {
